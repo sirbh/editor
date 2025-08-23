@@ -1,0 +1,39 @@
+.layout {
+  height: 100vh;
+  width: 100vw;
+  background-color: beige;
+}
+
+.container {
+  display: grid;
+  background-color: aquamarine;
+  height: 100%;
+  grid-template-columns: 5% 20% 70% 5%;
+  grid-template-rows: 10% 90%;
+}  
+
+.container > * {
+  padding: 2px;
+}
+
+.top-bar {
+  background-color: blue;
+  grid-column: 1/5;
+
+}
+
+.side-bar {
+  background-color: blueviolet;
+}
+
+.end-bar {
+  background-color: blueviolet;
+}
+
+.media-menu {
+  background-color: aqua;
+}
+
+.editor {
+  background-color: brown;
+}

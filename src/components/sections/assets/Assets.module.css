@@ -1,0 +1,15 @@
+
+
+.container-head {
+  padding: 16px 16px;
+  border-bottom: 2px solid gray;
+}
+
+.header {
+  text-align: start;
+  margin-bottom: 16px;
+}
+
+.btn {
+  margin-bottom: 16px;
+}
