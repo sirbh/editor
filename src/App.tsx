@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styles from './App.module.css'
 import Assets from './components/sections/assets/Assets'
 import Card from './components/ui/card/Card'
+import Seekbar from './components/ui/seekbar/Seekbar';
 
 type DroppedImage = {
   src: string;
@@ -42,21 +43,8 @@ export default function App() {
       </div>
       <div className={styles['editor']}>
         <Card>
-          <div style={{ width: "100%", height: '100%', position: 'relative', overflow:'hidden' }} onDrop={handleDrop}
-            onDragOver={(e) => e.preventDefault()}>
-            {images.map((img, index) => (
-              <img
-                key={index}
-                src={img.src}
-                alt={`dropped-${index}`}
-                style={{
-                  position: "absolute",
-                  left: img.x,
-                  top: img.y,
-                  transform: "translate(-50%, -50%)",
-                }}
-              />
-            ))}
+          <div>
+            <Seekbar />
           </div>
         </Card>
       </div>
