@@ -2,7 +2,9 @@ import { useState } from 'react';
 import styles from './App.module.css'
 import Assets from './components/sections/assets/Assets'
 import Card from './components/ui/card/Card'
-import Seekbar from './components/ui/seekbar/Seekbar';
+import Seekbar from './components/custom/Seekbar';
+
+
 
 type DroppedImage = {
   src: string;
@@ -44,7 +46,7 @@ export default function App() {
       <div className={styles['editor']}>
         <Card>
           <div>
-            <Seekbar />
+             <Seekbar/>
           </div>
         </Card>
       </div>

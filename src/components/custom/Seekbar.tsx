@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import type { ChangeEvent } from "react";
 
-
-const Slider: React.FC = () => {
+export default function Seekbar(){
   const [value, setValue] = useState<number>(50);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -32,4 +31,4 @@ const Slider: React.FC = () => {
   );
 };
 
-export default Slider;
+
