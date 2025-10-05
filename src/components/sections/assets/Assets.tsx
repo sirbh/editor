@@ -1,23 +1,29 @@
 import Card from "../../ui/card/Card";
 import Button from "../../ui/button/Button";
 import styles from "./Assets.module.css";
-import { useRef, useState, type ChangeEvent } from "react";
-
+import { useRef, type ChangeEvent } from "react";
+import { useDispatch, useSelector } from 'react-redux'
+import { addAsset } from '../../../store/assets/index'
+import type { RootState, } from "@/store/store";
 export default function Assets() {
-  const [files, setFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const dispatch = useDispatch()
+  const assets = useSelector((state: RootState) => state.assets.assets)
+
+  console.log(assets)
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      console.log("Selected files:", e.target.files);
-      const newFiles = Array.from(e.target.files);
-      setFiles((prev) => [...prev, ...newFiles]);
+      const newFiles = Array.from(e.target.files).map(file => ({
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        url: URL.createObjectURL(file), // temporary preview
+      }));
+
+      dispatch(addAsset(newFiles));
       e.target.value = "";
     }
-  };
-
-   const handleDragStart = (e: React.DragEvent<HTMLImageElement>, src: string) => {
-    e.dataTransfer.setData("imageSrc", src);
   };
 
   const handleClick = () => {
@@ -44,22 +50,20 @@ export default function Assets() {
 
       <div style={{ overflow: "hidden" }}>
         <ul style={{ marginTop: "15px" }}>
-          {files.map((file, index) => {
-            const fileURL = URL.createObjectURL(file);
+          {assets.map((file, index) => {
+            // const fileURL = URL.createObjectURL(file);
 
             return (
               <li key={`${file.name}-${index}`} style={{ marginBottom: "15px" }}>
                 {file.type.startsWith("image/") ? (
                   <img
-                    src={fileURL}
+                    src={file.url}
                     alt={file.name}
                     style={{ width: "150px", borderRadius: "8px" }}
-                    draggable={true}
-                    onDragStart={(e) => handleDragStart(e, fileURL)}
                   />
                 ) : file.type.startsWith("video/") ? (
                   <video
-                    src={fileURL}
+                    src={file.url}
                     width={150}
                     height={100}
                     style={{ borderRadius: "8px", objectFit: "cover" }}

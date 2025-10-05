@@ -9,7 +9,7 @@ export default function Seekbar(){
   };
 
   return (
-    <div style={{ height: "200px", alignItems: "center", display: "flex", flexDirection: "column", justifyContent: "start", marginTop: "50px", zIndex: 1, position:"relative" }}>
+    <div style={{ height: "200px", alignItems: "center", display: "flex", flexDirection: "column", justifyContent: "start", zIndex: 1, position:"relative" }}>
          <input
         type="range"
         id="volume"
