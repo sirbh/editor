@@ -68,7 +68,6 @@ function Droppable({ children }: { children: React.ReactNode }) {
         padding: '10px',
         borderRadius: '5px',
         backgroundColor: isOver ? 'lightgreen' : 'lightgray',
-        width: MIN_TIME_LINE,
         maxHeight: '200px',
         alignItems: 'center',
         justifyContent: 'center',

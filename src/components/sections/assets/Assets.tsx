@@ -5,6 +5,7 @@ import { useRef, type ChangeEvent } from "react";
 import { useDispatch, useSelector } from 'react-redux'
 import { addAsset } from '../../../store/assets/index'
 import type { RootState, } from "@/store/store";
+import Draggable from "../draggable/Draggable";
 export default function Assets() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useDispatch()
@@ -50,30 +51,32 @@ export default function Assets() {
 
       <div style={{ overflow: "hidden" }}>
         <ul style={{ marginTop: "15px" }}>
-          {assets.map((file, index) => {
+          {assets.map((file) => {
             // const fileURL = URL.createObjectURL(file);
 
             return (
-              <li key={`${file.name}-${index}`} style={{ marginBottom: "15px" }}>
-                {file.type.startsWith("image/") ? (
-                  <img
-                    src={file.url}
-                    alt={file.name}
-                    style={{ width: "150px", borderRadius: "8px" }}
-                  />
-                ) : file.type.startsWith("video/") ? (
-                  <video
-                    src={file.url}
-                    width={150}
-                    height={100}
-                    style={{ borderRadius: "8px", objectFit: "cover" }}
-                    muted
-                    controls={false}
-                  />
-                ) : (
-                  <span>{file.name}</span>
-                )}
-              </li>
+              <Draggable id={file.id} key={file.id}>
+                <li  style={{ marginBottom: "15px" }}>
+                  {file.type.startsWith("image/") ? (
+                    <img
+                      src={file.url}
+                      alt={file.name}
+                      style={{ width: "150px", borderRadius: "8px" }}
+                    />
+                  ) : file.type.startsWith("video/") ? (
+                    <video
+                      src={file.url}
+                      width={150}
+                      height={100}
+                      style={{ borderRadius: "8px", objectFit: "cover" }}
+                      muted
+                      controls={false}
+                    />
+                  ) : (
+                    <span>{file.name}</span>
+                  )}
+                </li>
+              </Draggable>
             );
           })}
         </ul>
