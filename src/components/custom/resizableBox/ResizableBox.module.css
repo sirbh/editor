@@ -1,0 +1,84 @@
+.box {
+  position: relative;
+  border: 2px solid #4a90e2;
+  background-color: #f5f9ff;
+  border-radius: 8px;
+  overflow: hidden;
+  user-select: none;
+  transition: box-shadow 0.2s;
+}
+
+.box:hover {
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Common handle base */
+.handle {
+  position: absolute;
+  background: transparent;
+}
+
+/* Sides */
+.handleTop {
+  top: 0;
+  left: 8px;
+  right: 8px;
+  height: 8px;
+  cursor: ns-resize;
+}
+
+.handleBottom {
+  bottom: 0;
+  left: 8px;
+  right: 8px;
+  height: 8px;
+  cursor: ns-resize;
+}
+
+.handleLeft {
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 8px;
+  cursor: ew-resize;
+}
+
+.handleRight {
+  right: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 8px;
+  cursor: ew-resize;
+}
+
+/* Corners */
+.handleCorner {
+  width: 12px;
+  height: 12px;
+  background: #4a90e2;
+  border-radius: 2px;
+}
+
+.handleTopLeft {
+  top: 0;
+  left: 0;
+  cursor: nwse-resize;
+}
+
+.handleTopRight {
+  top: 0;
+  right: 0;
+  cursor: nesw-resize;
+}
+
+.handleBottomLeft {
+  bottom: 0;
+  left: 0;
+  cursor: nesw-resize;
+}
+
+.handleBottomRight {
+  bottom: 0;
+  right: 0;
+  cursor: nwse-resize;
+}
