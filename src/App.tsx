@@ -1,7 +1,7 @@
 import styles from "./App.module.css";
 import Assets from "./components/sections/assets/Assets";
 import Card from "./components/ui/card/Card";
-import Seekbar from "./components/custom/Seekbar";
+// import Seekbar from "./components/custom/Seekbar";
 import { DndContext, DragOverlay, type DragMoveEvent, type UniqueIdentifier } from "@dnd-kit/core";
 import Droppable from "./components/sections/droppable/Droppable";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +11,7 @@ import { useState } from "react";
 
 export default function App() {
   
-  const selectedAssets = useSelector((state: RootState) => state.assets.selectedAssests)
+  // const selectedAssets = useSelector((state: RootState) => state.assets.selectedAssests)
   const assets = useSelector((state: RootState) => state.assets.assets)
   const [activeId, setActiveId] = useState<UniqueIdentifier>("");
   console.log(assets);
