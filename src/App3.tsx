@@ -1,41 +1,42 @@
-import { useRef, useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function App() {
+export default function AutoPlayer() {
+
   const [time, setTime] = useState(0);
-  const lastFrameTime = useRef<number | null>(null);
+  const duration:number = 120; //in seconds
+  const frameInterval:number = 16.6
+  const [playing, setPlaying] = useState(false);
 
-  const updateFrame = (newtime: number) => {
-    if (!lastFrameTime.current) lastFrameTime.current = newtime;
+  useEffect(() => {
 
-    const elapsedTime = newtime - lastFrameTime.current;
-    lastFrameTime.current = newtime;
-    console.log(elapsedTime)
-
-    setTime(prev => {
-      const newTime = prev + elapsedTime;
-
-      // Schedule next frame only if we haven't reached 1000ms
-      if (newTime < 1000) {
-        requestAnimationFrame(updateFrame);
-      }
-
-      return newTime < 1000 ? newTime : 1000; // cap at 1000ms
-    });
-  };
+    let interval:NodeJS.Timeout;
+    if (playing) {
+      interval = setInterval(() => {
+        setTime((t) => (t < (duration*1000) ? t + frameInterval : t));
+      }, frameInterval); // advance 1 sec per second
+    }
+    return () => clearInterval(interval);
+  }, [playing]);
 
   return (
-    <div>
-      Hello World
-      <div>Time: {Math.floor(time)} ms</div>
-      <button
-        onClick={() => {
-          lastFrameTime.current = null; // reset for new animation
-          setTime(0); // start from 0
-          requestAnimationFrame(updateFrame);
-        }}
-      >
-        Press
-      </button>
+    <div className="p-6 space-y-4">
+      <input
+        type="range"
+        min="0"
+        max={duration*1000}
+        value={time}
+        onChange={(e) => setTime(parseFloat(e.target.value))}
+      />
+
+      <div className="flex gap-2">
+        <button
+          onClick={() => setPlaying(!playing)}
+        >
+          {playing ? "Pause" : "Play"}
+        </button>
+        <span>{time}s / {duration}s</span>
+      </div>
+
     </div>
   );
 }
