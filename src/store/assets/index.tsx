@@ -9,6 +9,10 @@ export interface Asset {
   url: string;
 }
 
+export interface SelectedAsset extends Asset {
+   start: number
+   end: number
+}
 // Slice state type
 interface AssetsState {
   assets: Asset[];

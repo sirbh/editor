@@ -26,7 +26,6 @@ export default function App() {
          
           const { active, over } = event;
           if (over && over.id === 'droppable') {
-            // Move the dragged item into droppedItems
             const draggedItem = assets.find((item) => item.id === active.id);
             console.log(draggedItem)
             if (draggedItem) {

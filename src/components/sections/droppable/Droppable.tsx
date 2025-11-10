@@ -3,36 +3,11 @@ import type { RootState } from "@/store/store";
 import { useDroppable } from "@dnd-kit/core";
 import { useSelector } from "react-redux";
 import { Rnd } from "react-rnd";
-import { useRef, useState } from "react";
 export default function Droppable() {
-  const { isOver, setNodeRef } = useDroppable({
+  const {  setNodeRef } = useDroppable({
     id: "droppable",
   });
-  const [time, setTime] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const lastFrameTime = useRef<number>(null);
-  const duration = 1000;
-  console.log(console.log(time))
-  const updateTime = (time: number) => {
-    if (!lastFrameTime.current) {
-      console.log("I ran");
-      lastFrameTime.current = time
-    }
 
-    const elaspedTime = time - lastFrameTime.current;
-    lastFrameTime.current = time;
-
-    setTime(prev => {
-      const time = prev + elaspedTime;
-      return time < duration ? time : duration;
-    })
-
-    if (time < duration) {
-      requestAnimationFrame(updateTime);
-    } else {
-      setIsPlaying(false);
-    }
-  }
 
 
   const assets = useSelector((state: RootState) => state.assets.selectedAssests)
@@ -107,12 +82,6 @@ export default function Droppable() {
         })}
       </div>
       <div>
-        <button onClick={() => {
-          setIsPlaying(prev => !prev)
-          requestAnimationFrame(updateTime)
-        }}>{isPlaying ? 'pause' : 'play'}</button>
-        <input>
-        </input>
       </div>
       <Seekbar />
     </div>
