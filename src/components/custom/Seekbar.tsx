@@ -8,8 +8,9 @@ import {
   createSnapModifier,
   restrictToParentElement
 } from '@dnd-kit/modifiers';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Rnd } from "react-rnd";
+
 
 
 const gridSize = 20; // pixels
@@ -17,36 +18,39 @@ const snapToGridModifier = createSnapModifier(gridSize);
 
 export default function Seekbar() {
   // const [value, setValue] = useState<number>(50);
-  const [{ x, y }, setCordinates] = useState({ x: 0, y: 0 })
+  const duration_sec = 120
+  const duration_px = 750
+  const slot = (duration_px*16.6)/(120*1000)
 
-  function handleDragEnd(event: DragMoveEvent) {
-    console.log("callee")
-    console.log(event.delta)
-    setCordinates(prev =>
-    (
-      {
-        x: prev.x + event.delta.x,
-        y: prev.y + event.delta.y
-      }
-    )
-    )
 
-  }
+  const [time, setTime] = useState(0);
+  const [playing, setPlaying] = useState(false);
 
+  useEffect(() => {
+    let interval:NodeJS.Timeout;
+    if (playing) {
+      interval = setInterval(() => {
+        setTime((t) => (t < duration_sec*1000 ? t + 16.6 : t));
+      }, 16.6); // advance 1 sec per second
+    }
+    return () => clearInterval(interval);
+  }, [playing]);
 
 
   return (
-    <DndContext modifiers={[restrictToHorizontalAxis, snapToGridModifier, restrictToParentElement]} onDragEnd={handleDragEnd}>
-      <div style={{ width: '100%', height: "240px", alignItems: "center", display: "flex", flexDirection: "column", justifyContent: "start", zIndex: 1, position: "relative", backgroundColor: "blue" }}>
+    <DndContext modifiers={[restrictToHorizontalAxis, snapToGridModifier, restrictToParentElement]}>
+      <>
+      <p>{time}</p>
+      <button onClick={()=>{setPlaying(prev=>!prev)}}>{playing?"Stop":"Play"}</button>
+      <input value={time} type="range" step={slot} min={0} max={duration_sec*1000} onChange={(e) => setTime(parseFloat(e.target.value))} style={{width:`${duration_px}px`}}></input>
+      <div style={{ width: `${duration_px}px`, height: "240px", alignItems: "center", display: "flex", flexDirection: "column", justifyContent: "start", zIndex: 1, position: "relative", backgroundColor: "blue" }}>
 
         <div style={{ width: '100%' }}>
-          {/* <Draggable cordinates={{x,y}}>
-          <div style={{ width: "40px", height: "30px", backgroundColor: "brown" }}>
-
-          </div>
-        </Draggable> */}
 
           <Rnd
+            onDrag={(e, data)=>{
+                console.log(data.x)
+            }}
             default={{
               x: 0,
               y: 0,
@@ -56,7 +60,7 @@ export default function Seekbar() {
             enableResizing={false}
             bounds={"parent"}
             dragAxis="x"
-            dragGrid={[20,5]}
+            dragGrid={[slot,5]}
           >
             <div style={{height:"40px", backgroundColor:"brown"}}>
 
@@ -65,6 +69,7 @@ export default function Seekbar() {
 
         </div>
       </div>
+      </>
 
     </DndContext>
   );
