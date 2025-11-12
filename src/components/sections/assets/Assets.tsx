@@ -71,6 +71,7 @@ export default function Assets() {
                       style={{ borderRadius: "8px", objectFit: "cover" }}
                       muted
                       controls={false}
+                      
                     />
                   ) : (
                     <span>{file.name}</span>

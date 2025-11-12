@@ -29,7 +29,11 @@ export default function App() {
             const draggedItem = assets.find((item) => item.id === active.id);
             console.log(draggedItem)
             if (draggedItem) {
-              dispatch(selectAsset(draggedItem));
+              dispatch(selectAsset({
+                ...draggedItem,
+                start:0,
+                end:10000
+              }));
             }
           }
           setActiveId("");

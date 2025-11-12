@@ -16,7 +16,7 @@ export interface SelectedAsset extends Asset {
 // Slice state type
 interface AssetsState {
   assets: Asset[];
-  selectedAssests: Asset[];
+  selectedAssests: SelectedAsset[];
 }
 
 const initialState: AssetsState = {
@@ -39,7 +39,7 @@ export const assetSlice = createSlice({
       state.assets = [...state.assets, ...newAssets];
     },
 
-    selectAsset: (state,action:PayloadAction<Asset>) => {
+    selectAsset: (state,action:PayloadAction<SelectedAsset>) => {
        state.selectedAssests = [...state.selectedAssests, action.payload]
     }
   },
