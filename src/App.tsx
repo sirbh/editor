@@ -31,8 +31,6 @@ export default function App() {
             if (draggedItem) {
               dispatch(selectAsset({
                 ...draggedItem,
-                start:0,
-                end:10000
               }));
             }
           }
@@ -57,7 +55,7 @@ export default function App() {
           </div>
           <div className={styles["editor"]}>
             <Card>
-              <Droppable/>
+              <Droppable />
             </Card>
           </div>
           <div className={styles["end-bar"]}>

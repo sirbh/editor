@@ -12,6 +12,7 @@ export interface Asset {
 export interface SelectedAsset extends Asset {
    start: number
    end: number
+   select_id:string
 }
 // Slice state type
 interface AssetsState {
@@ -39,11 +40,30 @@ export const assetSlice = createSlice({
       state.assets = [...state.assets, ...newAssets];
     },
 
-    selectAsset: (state,action:PayloadAction<SelectedAsset>) => {
-       state.selectedAssests = [...state.selectedAssests, action.payload]
-    }
+    selectAsset: (state, action: PayloadAction<Asset>) => {
+      const original = action.payload;
+
+      const selected: SelectedAsset = {
+        ...original,
+        select_id: generateId(),  // link back to the source asset
+        start: 0,                 // default start
+        end: 100000,                   // default end
+      };
+
+      state.selectedAssests.push(selected);
+    },
+    updateSelectedAssetRange: (
+      state,
+      action: PayloadAction<{ id: string; start: number; end: number }>
+    ) => {
+      const index = state.selectedAssests.findIndex(a => a.select_id === action.payload.id);
+      if (index !== -1) {
+        state.selectedAssests[index].start = action.payload.start;
+        state.selectedAssests[index].end = action.payload.end;
+      }
+    },
   },
 });
 
-export const { addAsset, selectAsset } = assetSlice.actions;
+export const { addAsset, selectAsset, updateSelectedAssetRange } = assetSlice.actions;
 export default assetSlice.reducer;
