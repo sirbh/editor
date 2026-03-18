@@ -2,6 +2,8 @@
 import React, { createContext, useRef, useState, useCallback, useContext } from "react";
 import type { ImperativePanelHandle } from "react-resizable-panels";
 
+export type PanelComponent = React.FC;
+
 type LayoutContextType = {
   leftRef: React.RefObject<ImperativePanelHandle | null>;
   rightRef: React.RefObject<ImperativePanelHandle | null>;
@@ -15,6 +17,7 @@ type LayoutContextType = {
   rightView: RightView;
   setLeftView: (view: LeftView) => void;
   setRightView: (view: RightView) => void;
+  setLeftOpen:(value:boolean)=>void;
 };
 
 export type LeftView = "files" | "text";
@@ -75,7 +78,7 @@ export function LayoutProvider({ children }: { children: React.ReactNode }) {
     <LayoutContext value={{
       leftRef, rightRef, leftOpen, rightOpen,
       isAnimating, toggleLeft, toggleRight, stopAnimation,
-      leftView, rightView, setLeftView, setRightView
+      leftView, rightView, setLeftView, setRightView, setLeftOpen
     }}>
       {children}
     </LayoutContext>
