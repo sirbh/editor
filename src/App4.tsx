@@ -5,16 +5,25 @@ import {
   ResizablePanelGroup,
 } from "./components/ui/resizable";
 import { Files, Type, type LucideIcon } from "lucide-react";
-import { useLayout, type LeftView } from "./contexts/LayoutContext";
+import { useLayout, type LeftView, type PanelComponent } from "./contexts/LayoutContext";
 import { TooltipContent, TooltipProvider, TooltipTrigger } from "@radix-ui/react-tooltip"; import { Tooltip } from "./components/ui/tooltip";
+import FilesPanel from "./components/custom/FilePanel";
+import TextPanel from "./components/custom/TextPanel";
 ;
 
 export default function App() {
   // Left Panel State
   const {
     leftRef, rightRef, leftOpen, rightOpen,
-    leftView, rightView, isAnimating, stopAnimation
+    leftView, rightView, isAnimating, stopAnimation, setLeftOpen
   } = useLayout();
+
+  const LEFT_PANEL_MAP: Record<LeftView, PanelComponent> = {
+  files: FilesPanel,
+  text: TextPanel,
+};
+
+  const LeftPanelContent = LEFT_PANEL_MAP[leftView];
 
   return (
     <div className="flex flex-col h-screen w-full overflow-hidden">
@@ -41,12 +50,10 @@ export default function App() {
             defaultSize={0}
             minSize={20}
             maxSize={50}
-            className={isAnimating ? "transition-[flex-basis] duration-300 ease-in-out" : ""}
+            className="bg-tansparent !mx-2 !h-full !flex !flex-col !min-h-0"
+            onCollapse={()=>{setLeftOpen(false)}}
           >
-            <div className="p-4 h-full border-r bg-white">
-              {leftView === "files" && <div>📂 File Explorer</div>}
-              {leftView === "text" && <div>🔍 Text Files</div>}
-            </div>
+              <LeftPanelContent />
           </ResizablePanel>
 
           {leftOpen && <ResizableHandle withHandle />}
@@ -81,46 +88,6 @@ export default function App() {
 }
 
 
-// export function LeftSidebar() {
-//   const { setLeftView, leftView, leftOpen } = useLayout();
-
-//   return (
-//     <aside className="flex flex-col gap-2 p-2 border-r bg-gray-200 w-[4.5rem]">
-//       <Button 
-//         variant={leftOpen && leftView === "files" ? "secondary" : "ghost"} 
-//         onClick={() => setLeftView("files")}
-//       >
-//         <Files size={40} />
-//       </Button>
-
-//        <Button 
-//         variant={leftOpen && leftView === "text" ? "secondary" : "ghost"} 
-//         onClick={() => setLeftView("text")}
-//       >
-//         <Type size={40} />
-//       </Button>
-
-//     </aside>
-//   );
-// }
-
-
-// export function RightSidebar() {
-//   const { setRightView, rightView, rightOpen } = useLayout();
-
-//   return (
-//     <aside className="flex flex-col gap-2 p-2 border-l bg-gray-50 items-center w-[4.5rem]">
-//       <Button 
-//         size="icon"
-//         variant={rightOpen && rightView === "text" ? "secondary" : "ghost"} 
-//         onClick={() => setRightView("text")}
-//       >
-//         <Type size={40} />
-//       </Button>
-//     </aside>
-//   );
-// }
-
 
 
 export function LeftSidebar() {
@@ -145,7 +112,7 @@ export function LeftSidebar() {
           return (
             <Tooltip key={item.id}>
               <TooltipTrigger asChild>
-                <Button className="flex flex-col h-16 w-full" variant={"outline"}>
+                <Button className="flex flex-col h-16 w-full" variant={active ? "secondary" : "ghost"} onClick={() => setLeftView(item.id)}>
                   <Icon size={40} className="!w-16 !h-6"  />
                   <span className="text-[10px] leading-none">
                     {item.label}
