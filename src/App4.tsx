@@ -39,7 +39,7 @@ import { selectAsset } from "./store/assets";
 import ReelEditorPanel from "./components/custom/ReelEditorPAnel";
 import { ScrollArea } from "./components/ui/scroll-area";
 import { Slider } from "./components/custom/slider";
-import Seekbar from "./components/custom/Seekbar";
+import Seekbar from "./components/custom/Seekbar2";
 export default function App() {
   // Left Panel State
   const {
