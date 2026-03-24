@@ -1,42 +1,40 @@
-import { useState, useEffect } from "react";
+import { memo, startTransition, useEffect, useOptimistic, useState } from "react";
 
-export default function AutoPlayer() {
 
-  const [time, setTime] = useState(0);
-  const duration:number = 120; //in seconds
-  const frameInterval:number = 16.6
-  const [playing, setPlaying] = useState(false);
+const list = ["India", "Brazil", "Ireland", "Mongolia", "Croatia", "Japan", "Rwanda", "Spain", "Denmark", "Kenya"]
 
-  useEffect(() => {
-
-    let interval:NodeJS.Timeout;
-    if (playing) {
-      interval = setInterval(() => {
-        setTime((t) => (t < (duration*1000) ? t + frameInterval : t));
-      }, frameInterval); // advance 1 sec per second
-    }
-    return () => clearInterval(interval);
-  }, [playing]);
-
-  return (
-    <div className="p-6 space-y-4">
-      <input
-        type="range"
-        min="0"
-        max={duration*1000}
-        value={time}
-        onChange={(e) => setTime(parseFloat(e.target.value))}
-      />
-
-      <div className="flex gap-2">
-        <button
-          onClick={() => setPlaying(!playing)}
-        >
-          {playing ? "Pause" : "Play"}
-        </button>
-        <span>{time}s / {duration}s</span>
-      </div>
-
-    </div>
-  );
+function myfunc(input:string) {
+  return new Promise<string[]>((res,rej)=>{
+      setTimeout(()=>{
+         res(list.filter(v=>v.startsWith(input)))
+      }, 5000)
+  })
 }
+export default function AutoPlayer() {
+  let a = 1;
+ useEffect(()=>{
+  console.log(a);
+ },[a])
+
+
+
+  return <>
+  <p>{a}</p>
+  <button onClick={()=>{
+    a=a+1;
+  }}>
+    click
+  </button>
+  </>
+
+}
+
+
+
+function DisplayComp({value}:{value:number}) {
+  return <p>
+    Timer: {value}
+  </p>
+}
+
+const MemoDisplatFunction  = memo(DisplayComp) 
